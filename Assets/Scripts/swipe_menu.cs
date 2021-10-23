@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class swipe_menu : MonoBehaviour
 {
     public GameObject scrollbar;
     private float scroll_pos = 0;
     float[] pos;
+
+    int currentLevel = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +48,8 @@ public class swipe_menu : MonoBehaviour
         {
             if (scroll_pos < pos[i] + (distance / 2) && scroll_pos > pos[i] - (distance / 2))
             {
-                Debug.LogWarning("Current Selected Level" + i);
+                //Debug.LogWarning("Current Selected Level" + i);
+                currentLevel = i + 1;
                 transform.GetChild(i).localScale = Vector2.Lerp(transform.GetChild(i).localScale, new Vector2(1.2f, 1.2f), 0.1f);
                 for (int j = 0; j < pos.Length; j++)
                 {
@@ -55,6 +59,11 @@ public class swipe_menu : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene("level_" + currentLevel);
         }
 
     }
