@@ -1,5 +1,5 @@
-using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class player : MonoBehaviour
 {
@@ -21,6 +21,8 @@ public class player : MonoBehaviour
 
     public GameObject bullet;
     public Transform arrowLeft, arrowRight, arrowUp, arrowDown;
+
+    private Tilemap walkable;
 
     private void ChangeAnimationState(string new_animation, float speed)
     {
@@ -128,6 +130,8 @@ public class player : MonoBehaviour
         
         rigid = gameObject.GetComponent<Rigidbody2D>();
         rigid.freezeRotation = true;
+
+        walkable = GameObject.Find("walkable").GetComponent<Tilemap>();
     }
 
     private void Update()
@@ -135,6 +139,11 @@ public class player : MonoBehaviour
         if (death) return;
 
         CekInput();
+
+        // Vector2 screenPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        // Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        // Debug.Log(walkable.HasTile(walkable.WorldToCell(worldPos)));
+        // Debug.Log("Grid: " + walkable.WorldToCell(worldPos));
     }
 
     private void FixedUpdate() {
