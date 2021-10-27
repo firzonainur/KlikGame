@@ -1,8 +1,9 @@
+using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.UIElements;
+using System.IO;
 
 public class virus : MonoBehaviour
 {
@@ -13,10 +14,15 @@ public class virus : MonoBehaviour
 
     private bool death = false;
     public float health;
-    public float movementSpeed = 1f;
+    public float movementSpeed;
     public float minRange;
 
     public GameObject player;
+    public Tilemap walkable;
+    private AStar.AStarSearch astar;
+    List<Vector3Int> path;
+    private IEnumerator movingCoroutine = null;
+    private bool moving = false;
 
     private void ChangeAnimationState(string new_animation, float speed)
     {
@@ -35,14 +41,36 @@ public class virus : MonoBehaviour
         circleCollider.enabled = false;
     }
 
-    private void ChasePlayer()
+    private IEnumerator moveObject(List<Vector3Int> path)
     {
-        if (player.GetComponent<player>().death) return;
-
-        if (Vector3.Distance(transform.position, player.transform.position) >= 0)
+        if (path != null && !player.GetComponent<player>().death)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
+            for (int i = 0; i < path.Count; i++)
+            {
+                float t = 0;
+                Vector3 current = transform.position;
+                Vector3 dest = walkable.CellToWorld(path[i]);
+
+                while (t < 1f)
+                {
+                    if (death)
+                    {
+                        moving = false;
+                        path = null;
+                        StopCoroutine(movingCoroutine);
+                        movingCoroutine = null;
+                    }
+
+                    transform.position = Vector3.Lerp(current, dest, (t += movementSpeed * Time.deltaTime));
+                    yield return new WaitForEndOfFrame();
+                }
+            }
         }
+
+        moving = false;
+        path = null;
+        StopCoroutine(movingCoroutine);
+        movingCoroutine = null;
     }
 
     // Start is called before the first frame update
@@ -54,6 +82,9 @@ public class virus : MonoBehaviour
         rigid.freezeRotation = true;
 
         circleCollider = gameObject.GetComponent<CircleCollider2D>();
+
+        astar = new AStar.AStarSearch();
+        path = null;
     }
 
     // Update is called once per frame
@@ -70,6 +101,12 @@ public class virus : MonoBehaviour
             Destroy(gameObject, 0.8f);
         }
 
-        if (Vector3.Distance(transform.position, player.transform.position) <= minRange && !death) ChasePlayer();
+        if (Vector3.Distance(transform.position, player.transform.position) <= minRange && !death && !moving)
+        {
+            moving = true;
+            path = astar.Search(walkable, transform.position, player.transform.position);
+            movingCoroutine = moveObject(path);
+            StartCoroutine(movingCoroutine);
+        }
     }
 }
