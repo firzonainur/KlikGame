@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class player : MonoBehaviour
 {
@@ -89,7 +90,7 @@ public class player : MonoBehaviour
             }
         }
 
-        if (attackPressed && !attacking)
+        if (attackPressed && !attacking && !EventSystem.current.IsPointerOverGameObject())
         {
             attacking = true;
             rigid.velocity = new Vector2(0, 0);

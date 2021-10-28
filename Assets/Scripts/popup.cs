@@ -17,6 +17,24 @@ public class popup : MonoBehaviour
         popUp.SetActive(aktif);
     }
 
+    public void StopViruses()
+    {
+        GameObject[] viruses = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var virus in viruses)
+        {
+            virus.GetComponent<virus>().paused = true;
+        }
+    }
+
+    public void EnableViruses()
+    {
+        GameObject[] viruses = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var virus in viruses)
+        {
+            virus.GetComponent<virus>().paused = false;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

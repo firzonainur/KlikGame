@@ -17,6 +17,8 @@ public class virus : MonoBehaviour
     public float movementSpeed;
     public float minRange;
 
+    public bool paused = false;
+
     public GameObject player;
     public Tilemap walkable;
     private AStar.AStarSearch astar;
@@ -64,6 +66,14 @@ public class virus : MonoBehaviour
                         movingCoroutine = null;
                     }
 
+                    if (paused)
+                    {
+                        moving = false;
+                        path = null;
+                        StopCoroutine(movingCoroutine);
+                        movingCoroutine = null;
+                    }
+
                     transform.position = Vector3.Lerp(current, dest, (t += movementSpeed * Time.deltaTime));
                     yield return new WaitForEndOfFrame();
                 }
@@ -80,7 +90,7 @@ public class virus : MonoBehaviour
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
-        
+
         rigid = gameObject.GetComponent<Rigidbody2D>();
         rigid.freezeRotation = true;
 

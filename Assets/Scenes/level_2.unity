@@ -464,7 +464,7 @@ MonoBehaviour:
   minRange: 1.3
   player: {fileID: 537143115}
   walkable: {fileID: 882196114}
-  kena: {fileID: 0}
+  kena: {fileID: 1712083318}
 --- !u!58 &502155646
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -624,7 +624,7 @@ MonoBehaviour:
   minRange: 1.3
   player: {fileID: 537143115}
   walkable: {fileID: 882196114}
-  kena: {fileID: 0}
+  kena: {fileID: 1712083318}
 --- !u!58 &519199298
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1113,7 +1113,7 @@ MonoBehaviour:
     - {fileID: 6022702642562153096, guid: 6a72a4a78606396a4914adf4d58a9830, type: 3}
     - {fileID: 2553035643219128414, guid: 6a72a4a78606396a4914adf4d58a9830, type: 3}
     - {fileID: -1121134025852666141, guid: 6a72a4a78606396a4914adf4d58a9830, type: 3}
-  tembak: {fileID: 0}
+  tembak: {fileID: 1712083318}
 --- !u!212 &537143121
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1595,7 +1595,7 @@ MonoBehaviour:
   minRange: 1.3
   player: {fileID: 537143115}
   walkable: {fileID: 882196114}
-  kena: {fileID: 0}
+  kena: {fileID: 1712083318}
 --- !u!58 &887519445
 CircleCollider2D:
   m_ObjectHideFlags: 0
