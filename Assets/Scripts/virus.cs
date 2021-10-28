@@ -24,6 +24,8 @@ public class virus : MonoBehaviour
     private IEnumerator movingCoroutine = null;
     private bool moving = false;
 
+    public AudioSource kena;
+
     private void ChangeAnimationState(string new_animation, float speed)
     {
         animator.speed = speed;
@@ -39,6 +41,7 @@ public class virus : MonoBehaviour
         death = true;
         ChangeAnimationState("virus_explode", 1);
         circleCollider.enabled = false;
+        kena.Play();
     }
 
     private IEnumerator moveObject(List<Vector3Int> path)

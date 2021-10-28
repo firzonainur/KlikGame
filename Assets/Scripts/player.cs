@@ -30,6 +30,8 @@ public class player : MonoBehaviour
 
     public Skins[] skins;
 
+    public AudioSource tembak;
+
     [System.Serializable]
     public struct Skins {
         public Sprite[] sprites;
@@ -82,6 +84,7 @@ public class player : MonoBehaviour
             {
                 StopAnimation();
                 SpawnArrow();
+                
                 attacking = false;
             }
         }
@@ -90,6 +93,7 @@ public class player : MonoBehaviour
         {
             attacking = true;
             rigid.velocity = new Vector2(0, 0);
+            tembak.Play();
             if (!current_animation.Contains("attack"))
             {
                 ChangeAnimationState(current_animation + "_attack", attackSpeed);
@@ -133,6 +137,7 @@ public class player : MonoBehaviour
         ChangeAnimationState("player_dead", 0.5f);
         CircleCollider2D[] colliders = gameObject.GetComponents<CircleCollider2D>();
         foreach(CircleCollider2D cc in colliders) cc.enabled = false;
+        
     }
 
     private void Reskin()
@@ -196,12 +201,14 @@ public class player : MonoBehaviour
                 this.health -= 5;
                 this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 StartCoroutine(WaitHit(1f));
+                
             }
             else
             {
                 this.health -= 10;
             }
             other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            
         }
     }
 }
