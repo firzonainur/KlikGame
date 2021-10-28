@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class bullet : MonoBehaviour
@@ -23,8 +21,14 @@ public class bullet : MonoBehaviour
         {
             if (other.gameObject.tag == "Enemy")
             {
+                string skin = PlayerPrefs.GetString("skin", "standard");
+                float damage = 0;
+                if (skin == "standard") damage = 10;
+                else if (skin == "bowUp") damage = 20;
+                else if (skin == "plateArmor") damage = 30;
+
                 virus Virus = other.gameObject.GetComponent<virus>();
-                Virus.health -= 10;
+                Virus.health -= damage;
             }
 
             Destroy(gameObject);
