@@ -93,7 +93,8 @@ public class virus : MonoBehaviour
         if (health <= 0 && !death)
         {
             Death();
-            gameObject.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
+            Vector3 scale = gameObject.transform.localScale;
+            gameObject.transform.localScale = new Vector3(2.5f * scale.x + scale.x, 2.5f * scale.y + scale.y, 2.5f * scale.z + scale.z);
         }
 
         if (current_animation == "virus_explode")

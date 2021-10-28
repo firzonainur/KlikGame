@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class player : MonoBehaviour
 {
@@ -7,8 +7,14 @@ public class player : MonoBehaviour
     string current_animation;
     private Rigidbody2D rigid;
     private bool rightPressed, leftPressed, upPressed, downPressed, attackPressed;
+    private bool spacePressed;
     private bool attacking = false;
     public bool death = false;
+    private float health = 10;
+
+    private string skin = "standard";
+
+    private SpriteRenderer sprite;
 
     [Range(0.1f, 2.0f)]
     public float animationSpeed;
@@ -22,7 +28,14 @@ public class player : MonoBehaviour
     public GameObject bullet;
     public Transform arrowLeft, arrowRight, arrowUp, arrowDown;
 
-    private Tilemap walkable;
+    public Skins[] skins;
+
+    [System.Serializable]
+    public struct Skins {
+        public Sprite[] sprites;
+        public Sprite[] walkSprites;
+        public Sprite[] deadSprites;
+    }
 
     private void ChangeAnimationState(string new_animation, float speed)
     {
@@ -122,6 +135,28 @@ public class player : MonoBehaviour
         foreach(CircleCollider2D cc in colliders) cc.enabled = false;
     }
 
+    private void Reskin()
+    {
+        skin = PlayerPrefs.GetString("skin", "standard");
+        string spriteName = sprite.sprite.name;
+        int spriteIndex = int.Parse(spriteName.Split('_')[1]);
+        int skinIndex = 0;
+
+        if (skin == "standard") skinIndex = 0;
+        else if (skin == "bowUp") skinIndex = 1;
+        else if (skin == "plateArmor") skinIndex = 2;
+
+        if (spriteName.Contains("walk")) sprite.sprite = skins[skinIndex].walkSprites[spriteIndex];
+        else if (spriteName.Contains("dead")) sprite.sprite = skins[skinIndex].deadSprites[spriteIndex];
+        else sprite.sprite = skins[skinIndex].sprites[spriteIndex];
+    }
+
+    IEnumerator WaitHit(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+    }
+
     private void Start()
     {
         animator = gameObject.GetComponent<Animator>();
@@ -131,19 +166,20 @@ public class player : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         rigid.freezeRotation = true;
 
-        walkable = GameObject.Find("walkable").GetComponent<Tilemap>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
         if (death) return;
 
-        CekInput();
+        if (health <= 0) Death();
 
-        // Vector2 screenPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        // Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-        // Debug.Log(walkable.HasTile(walkable.WorldToCell(worldPos)));
-        // Debug.Log("Grid: " + walkable.WorldToCell(worldPos));
+        CekInput();
+    }
+
+    private void LateUpdate() {
+        Reskin();
     }
 
     private void FixedUpdate() {
@@ -155,8 +191,17 @@ public class player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "Enemy")
         {
+            if (PlayerPrefs.GetString("skin") == "plateArmor")
+            {
+                this.health -= 5;
+                this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+                StartCoroutine(WaitHit(1f));
+            }
+            else
+            {
+                this.health -= 10;
+            }
             other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            Death();
         }
     }
 }
