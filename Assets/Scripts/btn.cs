@@ -17,6 +17,12 @@ public class btn : MonoBehaviour
         SceneManager.LoadScene(scenename);
     }
 
+    public void RestartScene()
+    {
+        Scene current = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(current.name);
+    }
+
     // Update is called once per frame
     void Update()
     {

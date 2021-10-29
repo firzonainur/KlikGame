@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4015273880232548552}
   - component: {fileID: 7709485779746520898}
   - component: {fileID: 2991419654100375987}
-  - component: {fileID: 467863689297268073}
+  - component: {fileID: 6046244559027460067}
   m_Layer: 0
   m_Name: Restart
   m_TagString: Untagged
@@ -121,19 +121,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 467863689297268073}
+      - m_Target: {fileID: 6046244559027460067}
         m_TargetAssemblyTypeName: btn, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_MethodName: RestartScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: level_4
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &467863689297268073
+--- !u!114 &6046244559027460067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -493,6 +493,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7996709672342781642}
+        m_TargetAssemblyTypeName: popup, Assembly-CSharp
+        m_MethodName: EnableViruses
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7996709672342781642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,6 +788,18 @@ MonoBehaviour:
       - m_Target: {fileID: 8498423106123337153}
         m_TargetAssemblyTypeName: popup, Assembly-CSharp
         m_MethodName: OnMouseDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8498423106123337153}
+        m_TargetAssemblyTypeName: popup, Assembly-CSharp
+        m_MethodName: StopViruses
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

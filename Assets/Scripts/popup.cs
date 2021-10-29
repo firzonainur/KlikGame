@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class popup : MonoBehaviour
@@ -24,6 +22,10 @@ public class popup : MonoBehaviour
         {
             virus.GetComponent<virus>().paused = true;
         }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<player>().enabled = false;
+        Time.timeScale = 0;
     }
 
     public void EnableViruses()
@@ -33,6 +35,10 @@ public class popup : MonoBehaviour
         {
             virus.GetComponent<virus>().paused = false;
         }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<player>().enabled = true;
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
